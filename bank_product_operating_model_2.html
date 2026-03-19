@@ -1,0 +1,387 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#141414;min-height:100%}
+.m{font-family:system-ui,-apple-system,sans-serif;padding:16px;max-width:720px;margin:0 auto;color:#e0e0e0}
+.info{font-size:12px;color:#888;margin-bottom:10px;line-height:1.5}
+.roles{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+.rb{
+  padding:5px 11px;border-radius:20px;font-size:11px;font-weight:500;
+  cursor:pointer;border:1.5px solid #444;
+  background:#1a1a1a;color:#aaa;
+  transition:all .15s;user-select:none;
+}
+.rb:hover{border-color:#666;color:#eee}
+.rb.on{border-color:#AFA9EC;background:#26215C;color:#CECBF6}
+.tier{margin-bottom:12px}
+.th2{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.tl{font-size:10px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:#777}
+.badge{font-size:9px;font-weight:500;padding:2px 6px;border-radius:5px;letter-spacing:.03em}
+.b1{background:#042C53;color:#B5D4F4}
+.b2{background:#412402;color:#FAC775}
+.b3{background:#501313;color:#F7C1C1}
+.sep{border:none;border-top:.5px dashed #333;margin:10px 0 4px}
+.bb{background:#1e1e1e;border:.5px solid #333;border-radius:10px;padding:8px 12px;text-align:center;margin-bottom:6px}
+.bb .t1{font-size:13px;font-weight:500;color:#eee}
+.bb .t2{font-size:10px;color:#aaa;margin-top:1px}
+.pg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.pg2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pc{
+  border-radius:8px;padding:8px 10px 6px;border:1.5px solid transparent;
+  background:#1e1e1e;transition:all .2s;position:relative;
+}
+.pc .pt{font-size:12px;font-weight:500;color:#eee;line-height:1.3}
+.pc .ps{font-size:10px;color:#aaa;margin-top:1px;line-height:1.3}
+.subs{margin-top:5px;display:flex;flex-wrap:wrap;gap:3px}
+.sub{
+  font-size:9px;padding:2px 6px;border-radius:4px;font-weight:500;
+  background:#2C2C2A;color:#B4B2A9;
+  line-height:1.2;
+}
+.vps{margin-top:6px;display:flex;flex-wrap:wrap;gap:3px}
+.vp{
+  font-size:9px;padding:3px 6px;border-radius:4px;font-weight:500;
+  background:#2a2a2a;color:#aaa;
+  border:1px solid transparent;transition:all .2s;line-height:1.2;
+}
+.vp.sol{background:#26215C;color:#CECBF6;border-color:#534AB7}
+.vp.dot{background:#1E1A40;color:#AFA9EC;border-color:#534AB7;border-style:dashed}
+.vp.dim{opacity:.25}
+.fg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.fg2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.fc{
+  border-radius:7px;padding:6px 8px;border:1.5px solid transparent;
+  background:#1e1e1e;transition:all .2s;position:relative;
+}
+.fc .ft{font-size:11px;font-weight:500;color:#eee;line-height:1.2}
+.fc .fs{font-size:10px;color:#aaa;margin-top:1px;line-height:1.2}
+.fc .ot{
+  position:absolute;top:3px;right:5px;font-size:8px;font-weight:500;
+  padding:1px 4px;border-radius:3px;display:none;
+}
+.fc.sol{border-color:#AFA9EC;background:#26215C}
+.fc.sol .ft{color:#CECBF6}
+.fc.sol .fs{color:#AFA9EC}
+.fc.sol .ot{display:inline;background:#AFA9EC;color:#26215C}
+.fc.dot{border-color:#534AB7;border-style:dashed;background:#1E1A40}
+.fc.dot .ft{color:#AFA9EC}
+.fc.dot .fs{color:#7F77DD}
+.fc.dot .ot{display:inline;background:#534AB7;color:#CECBF6}
+.fc.dim{opacity:.3}
+.pc.dim{opacity:.3}
+.pc.sol{border-color:#AFA9EC;background:#26215C}
+.pc.sol .pt{color:#CECBF6}
+.pc.sol .ps{color:#AFA9EC}
+.pc.dot{border-color:#534AB7;border-style:dashed;background:#1E1A40}
+.pc.dot .pt{color:#AFA9EC}
+.pc.dot .ps{color:#7F77DD}
+.fc .subs{margin-top:4px;display:flex;flex-wrap:wrap;gap:2px}
+.fc .sub{font-size:8px;padding:1px 5px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:10px;color:#aaa;margin-top:12px;padding-top:8px;border-top:.5px solid #333}
+.legend-i{display:flex;align-items:center;gap:4px}
+.ls{width:16px;height:3px;background:#AFA9EC;border-radius:2px}
+.ld{width:16px;height:0;border-top:2px dashed #534AB7}
+.ldim{width:16px;height:10px;background:#1e1e1e;border-radius:3px;opacity:.3}
+.vp-key{font-size:9px;padding:3px 6px;border-radius:4px;font-weight:500;line-height:1.2}
+.vp-sol{background:#26215C;color:#CECBF6;border:1px solid #534AB7}
+.vp-dot{background:#1E1A40;color:#AFA9EC;border:1px dashed #534AB7}
+</style>
+
+<div class="m">
+<div class="info">Click a role to see ownership and matrix. Product design sits under CTO as a shared function, with embedded designers in each product line.</div>
+<div class="roles" id="rl"></div>
+
+<div class="bb">
+  <div class="t1">Supervisory board</div>
+  <div class="t2">Audit · Risk · Remuneration · Nomination committees</div>
+</div>
+
+<div class="tier">
+  <div class="th2"><span class="tl">Management board</span></div>
+  <div class="pg" id="mgmt"></div>
+</div>
+<hr class="sep">
+
+<div class="tier">
+  <div class="th2"><span class="tl">Product lines with embedded VP roles</span></div>
+  <div class="pg2" id="prod-top"></div>
+  <div style="height:5px"></div>
+  <div class="pg" id="prod-bot"></div>
+</div>
+<hr class="sep">
+
+<div class="tier">
+  <div class="th2"><span class="badge b1">1LoD</span><span class="tl">Shared enabling functions</span></div>
+  <div class="fg" id="sh"></div>
+</div>
+<hr class="sep">
+
+<div class="tier">
+  <div class="th2"><span class="badge b2">2LoD</span><span class="tl">Independent oversight</span></div>
+  <div class="fg" id="ov"></div>
+</div>
+<hr class="sep">
+
+<div class="tier">
+  <div class="th2"><span class="badge b3">3LoD</span><span class="tl">Independent assurance</span></div>
+  <div class="fg fg2" id="as"></div>
+</div>
+
+<div class="legend">
+  <div class="legend-i"><div class="ls"></div>Direct report</div>
+  <div class="legend-i"><div class="ld"></div>Matrix / dotted</div>
+  <div class="legend-i"><div class="ldim"></div>Not in scope</div>
+  <div class="legend-i"><span class="vp-key vp-sol">VP pill</span>Solid to C-suite</div>
+  <div class="legend-i"><span class="vp-key vp-dot">VP pill</span>Dotted to C-suite</div>
+</div>
+</div>
+
+<script>
+const R=[
+  {id:'ceo',l:'CEO'},{id:'cfo',l:'CFO'},{id:'cto',l:'CTO'},{id:'cio',l:'CIO'},
+  {id:'coo',l:'COO'},{id:'cro',l:'CRO'},{id:'cco',l:'CCO'},{id:'clo',l:'CLO'},
+  {id:'cpo',l:'CPO / CHRO'}
+];
+
+const MB=[
+  {id:'r-ceo',t:'CEO',s:'Strategy, product line ownership'},
+  {id:'r-cfo',t:'CFO',s:'Finance, treasury, IR'},
+  {id:'r-cto',t:'CTO',s:'Product eng, platform, design'},
+  {id:'r-cio',t:'CIO',s:'Corporate IT, data, CISO'},
+  {id:'r-coo',t:'COO',s:'Ops, service, procurement'},
+  {id:'r-cro',t:'CRO',s:'Enterprise risk, controls'},
+  {id:'r-cco',t:'CCO',s:'Compliance, AML, DPO'},
+  {id:'r-clo',t:'CLO',s:'Legal, regulatory counsel'},
+  {id:'r-cpo',t:'CPO',s:'People, culture, talent'},
+];
+
+const PL_TOP=[
+  {id:'p-baas',t:'Banking platform (BaaS)',s:'Core banking, API platform, embedded services',
+   subs:['Core ledger','Payments (SEPA, SWIFT, instant, FX)','Accounts & KYC','Open banking APIs','Partner integration'],
+   vps:[
+    {id:'v-baas-pm',l:'Head of product',mx:'ceo'},
+    {id:'v-baas-pmpay',l:'Head of payments',mx:'ceo'},
+    {id:'v-baas-eng',l:'VP Eng (platform)',mx:'cto'},{id:'v-baas-eng2',l:'VP Eng (payments)',mx:'cto'},
+    {id:'v-baas-devops',l:'DevOps lead',mx:'cto'},{id:'v-baas-arch',l:'Platform architect',mx:'cto'},
+    {id:'v-baas-design',l:'Product designer',mx:'cto'},
+    {id:'v-baas-compl',l:'Compliance officer',mx:'cco'},{id:'v-baas-legal',l:'Legal counsel',mx:'clo'},
+    {id:'v-baas-ops',l:'Ops manager',mx:'coo'},{id:'v-baas-hr',l:'HR partner (?)',mx:'cpo'}
+  ]},
+  {id:'p-cards',t:'Card services',s:'Full card lifecycle, both sides of the network',
+   subs:['Issuing (debit, credit, prepaid, virtual)','Acquiring (merchant, POS, e-commerce)','Scheme management','Tokenization & 3DS'],
+   vps:[
+    {id:'v-crd-pm',l:'Head of product',mx:'ceo'},
+    {id:'v-crd-pmiss',l:'Head of issuing',mx:'ceo'},{id:'v-crd-pmacq',l:'Head of acquiring',mx:'ceo'},
+    {id:'v-crd-eng',l:'VP Eng',mx:'cto'},{id:'v-crd-devops',l:'DevOps lead',mx:'cto'},
+    {id:'v-crd-design',l:'Product designer',mx:'cto'},
+    {id:'v-crd-compl',l:'Compliance officer',mx:'cco'},{id:'v-crd-ops',l:'Ops manager',mx:'coo'},
+    {id:'v-crd-risk',l:'Risk analyst',mx:'cro'},{id:'v-crd-hr',l:'HR partner (?)',mx:'cpo'}
+  ]},
+];
+
+const PL_BOT=[
+  {id:'p-wealth',t:'Wealth & assets',s:'Unified savings, investments, and digital assets',
+   subs:['Deposits (current, savings, term)','Brokerage & custody','Wealth management','Crypto (custody, trading, staking)','Tokenization'],
+   vps:[
+    {id:'v-wlt-pm',l:'Head of product',mx:'ceo'},
+    {id:'v-wlt-pminv',l:'Head of investments',mx:'ceo'},{id:'v-wlt-pmcry',l:'Head of digital assets',mx:'ceo'},
+    {id:'v-wlt-eng',l:'VP Eng',mx:'cto'},{id:'v-wlt-devops',l:'DevOps lead',mx:'cto'},
+    {id:'v-wlt-design',l:'Product designer',mx:'cto'},
+    {id:'v-wlt-sec',l:'Security lead',mx:'cio'},
+    {id:'v-wlt-risk',l:'Risk officer',mx:'cro'},{id:'v-wlt-compl',l:'Compliance officer',mx:'cco'},
+    {id:'v-wlt-legal',l:'Legal counsel',mx:'clo'},{id:'v-wlt-fin',l:'Finance controller',mx:'cfo'},
+    {id:'v-wlt-hr',l:'HR partner (?)',mx:'cpo'}
+  ]},
+  {id:'p-lend',t:'Lending',s:'Credit origination, servicing, collections',
+   subs:['Consumer lending','SME & corporate','Mortgage','Credit scoring & decisioning'],
+   vps:[
+    {id:'v-lnd-pm',l:'Head of product',mx:'ceo'},
+    {id:'v-lnd-eng',l:'VP Eng',mx:'cto'},{id:'v-lnd-devops',l:'DevOps lead',mx:'cto'},
+    {id:'v-lnd-design',l:'Product designer',mx:'cto'},
+    {id:'v-lnd-data',l:'Data scientist',mx:'cio'},
+    {id:'v-lnd-risk',l:'Risk officer',mx:'cro'},{id:'v-lnd-legal',l:'Legal counsel',mx:'clo'},
+    {id:'v-lnd-fin',l:'Finance controller',mx:'cfo'},{id:'v-lnd-compl',l:'Compliance officer',mx:'cco'},
+    {id:'v-lnd-hr',l:'HR partner (?)',mx:'cpo'}
+  ]},
+  {id:'p-sales',t:'Sales & distribution',s:'Channels, growth, customer lifecycle',
+   subs:['Digital channels','Branch network','CRM & lifecycle','Comms & marketing'],
+   vps:[
+    {id:'v-sal-pm',l:'Head of product',mx:'ceo'},
+    {id:'v-sal-eng',l:'VP Eng',mx:'cto'},
+    {id:'v-sal-design',l:'Sr. product designer',mx:'cto'},
+    {id:'v-sal-data',l:'Data analyst',mx:'cio'},
+    {id:'v-sal-hr',l:'HR partner (?)',mx:'cpo'}
+  ]},
+];
+
+const SH=[
+  {id:'s-peng',t:'Platform engineering',s:'Cloud infra, CI/CD, SRE, shared services',
+   subs:['Cloud & infrastructure','CI/CD & DevOps platform','SRE & observability','API gateway & service mesh']},
+  {id:'s-design',t:'Product design',s:'Design system, UX research, accessibility',
+   subs:['Design system & component library','UX research','Content design','Accessibility','Brand & visual identity']},
+  {id:'s-corpit',t:'Corporate IT',s:'Internal platforms, productivity, enterprise tools',
+   subs:['M365 / Google Workspace','Okta / IAM','ITSM & service desk','Endpoint mgmt','SaaS admin','Collaboration tools']},
+  {id:'s-data',t:'Data & analytics',s:'BI, data platform, ML/AI, MIS',
+   subs:['Data warehouse','BI & reporting','ML/AI platform','Data governance']},
+  {id:'s-ciso',t:'CISO / Info security',s:'Cybersecurity, access control, SIEM, IR',
+   subs:['SOC & threat detection','Vulnerability mgmt','Access governance','Incident response']},
+  {id:'s-ops',t:'Operations',s:'Back-office, recon, settlements'},
+  {id:'s-fin',t:'Finance',s:'FP&A, accounting, reg reporting'},
+  {id:'s-treas',t:'Treasury & ALM',s:'Liquidity, funding, rate mgmt'},
+  {id:'s-people',t:'People & culture',s:'HR, talent, L&D'},
+  {id:'s-cs',t:'Customer service',s:'Contact center, onboarding'},
+  {id:'s-proc',t:'Procurement',s:'Outsourcing, vendor contracts'},
+];
+
+const OV=[
+  {id:'o-risk',t:'Risk management',s:'Credit, market, op, model'},
+  {id:'o-compl',t:'Compliance & AML',s:'Sanctions, KYC/AML policy'},
+  {id:'o-legal',t:'Legal',s:'Contracts, reg affairs'},
+  {id:'o-dpo',t:'Data protection',s:'GDPR, privacy'},
+  {id:'o-fcp',t:'Financial crime',s:'Fraud, tx monitoring'},
+  {id:'o-ic',t:'Internal controls',s:'Process assurance, testing'},
+  {id:'o-bcp',t:'Business continuity',s:'BCP, DR, crisis'},
+];
+
+const AS=[
+  {id:'a-ia',t:'Internal audit',s:'Assurance over 1LoD & 2LoD'},
+  {id:'a-ext',t:'External audit',s:'Statutory, ECB/FSA inspections'},
+];
+
+const OW={
+  ceo:{
+    solid:['r-ceo','p-baas','p-cards','p-wealth','p-lend','p-sales'],
+    dotted:['r-cfo','r-cto','r-cio','r-coo','r-cro','r-cco','r-clo','r-cpo'],
+    tag:'CEO'
+  },
+  cfo:{
+    solid:['r-cfo','s-fin','s-treas'],
+    dotted:['p-lend','p-wealth','o-risk'],
+    tag:'CFO'
+  },
+  cto:{
+    solid:['r-cto','s-peng','s-design'],
+    dotted:['p-baas','p-cards','p-wealth','p-lend','p-sales','s-ciso'],
+    tag:'CTO'
+  },
+  cio:{
+    solid:['r-cio','s-corpit','s-data','s-ciso'],
+    dotted:['p-lend','p-wealth','p-sales','s-peng'],
+    tag:'CIO'
+  },
+  coo:{
+    solid:['r-coo','s-ops','s-cs','s-proc','o-bcp'],
+    dotted:['p-baas','p-cards','p-wealth','s-corpit'],
+    tag:'COO'
+  },
+  cro:{
+    solid:['r-cro','o-risk','o-ic'],
+    dotted:['p-lend','p-wealth','p-cards','s-treas','s-ciso'],
+    tag:'CRO'
+  },
+  cco:{
+    solid:['r-cco','o-compl','o-fcp','o-dpo'],
+    dotted:['p-baas','p-cards','p-wealth','p-lend'],
+    tag:'CCO'
+  },
+  clo:{
+    solid:['r-clo','o-legal'],
+    dotted:['o-compl','o-dpo','p-baas','p-wealth','p-lend'],
+    tag:'CLO'
+  },
+  cpo:{
+    solid:['r-cpo','s-people'],
+    dotted:['p-baas','p-cards','p-wealth','p-lend','p-sales','s-corpit'],
+    tag:'CPO'
+  }
+};
+
+let act=null;
+const allFC=[],allPC=[],allVP=[];
+
+function mkFC(cid,items){
+  const el=document.getElementById(cid);
+  items.forEach(it=>{
+    const d=document.createElement('div');d.className='fc';d.dataset.id=it.id;
+    let subH='';
+    if(it.subs&&it.subs.length){
+      subH='<div class="subs">';
+      it.subs.forEach(s=>{subH+='<span class="sub">'+s+'</span>'});
+      subH+='</div>';
+    }
+    d.innerHTML='<div class="ft">'+it.t+'</div><div class="fs">'+it.s+'</div>'+subH+'<span class="ot"></span>';
+    el.appendChild(d);allFC.push(d);
+  });
+}
+
+function mkPC(cid,items){
+  const el=document.getElementById(cid);
+  items.forEach(it=>{
+    const d=document.createElement('div');d.className='pc';d.dataset.id=it.id;
+    let subH='';
+    if(it.subs&&it.subs.length){
+      subH='<div class="subs">';
+      it.subs.forEach(s=>{subH+='<span class="sub">'+s+'</span>'});
+      subH+='</div>';
+    }
+    let vpH='<div class="vps">';
+    (it.vps||[]).forEach(v=>{
+      vpH+='<span class="vp" data-vid="'+v.id+'" data-mx="'+v.mx+'">'+v.l+'</span>';
+    });
+    vpH+='</div>';
+    d.innerHTML='<div class="pt">'+it.t+'</div><div class="ps">'+it.s+'</div>'+subH+vpH;
+    el.appendChild(d);allPC.push(d);
+    d.querySelectorAll('.vp').forEach(v=>allVP.push(v));
+  });
+}
+
+mkFC('mgmt',MB);
+mkPC('prod-top',PL_TOP);
+mkPC('prod-bot',PL_BOT);
+mkFC('sh',SH);
+mkFC('ov',OV);
+mkFC('as',AS);
+
+const rlEl=document.getElementById('rl');
+R.forEach(r=>{
+  const b=document.createElement('span');b.className='rb';b.textContent=r.l;
+  b.dataset.role=r.id;b.onclick=function(){tog(r.id,b)};rlEl.appendChild(b);
+});
+
+function tog(rid,btn){
+  const was=act===rid;
+  document.querySelectorAll('.rb').forEach(function(b){b.classList.remove('on')});
+  allFC.forEach(function(c){c.className='fc';var o=c.querySelector('.ot');if(o){o.textContent='';o.style.display='none'}});
+  allPC.forEach(function(c){c.className='pc'});
+  allVP.forEach(function(v){v.className='vp'});
+
+  if(was){act=null;return}
+  act=rid;btn.classList.add('on');
+
+  var o=OW[rid];
+
+  allFC.forEach(function(c){
+    var id=c.dataset.id;var ot=c.querySelector('.ot');
+    if(o.solid.includes(id)){
+      c.classList.add('sol');ot.textContent=o.tag;ot.style.display='inline';
+    }else if(o.dotted.includes(id)){
+      c.classList.add('dot');ot.textContent=o.tag;ot.style.display='inline';
+    }else{c.classList.add('dim')}
+  });
+
+  allPC.forEach(function(c){
+    var id=c.dataset.id;
+    if(o.solid.includes(id)){c.classList.add('sol')}
+    else if(o.dotted.includes(id)){c.classList.add('dot')}
+    else{
+      var hasVP=c.querySelectorAll('.vp[data-mx="'+rid+'"]').length>0;
+      if(!hasVP)c.classList.add('dim');
+    }
+  });
+
+  allVP.forEach(function(v){
+    if(v.dataset.mx===rid){v.classList.add('dot')}
+    else{v.classList.add('dim')}
+  });
+}
+</script>
